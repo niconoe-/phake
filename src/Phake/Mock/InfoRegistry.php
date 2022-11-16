@@ -22,7 +22,7 @@ namespace Phake\Mock;
  *     the documentation and/or other materials provided with the
  *     distribution.
  *
- *  *  Neither the name of Mike Lively nor the names of his
+ *  *  Neither the name of Mike Lively nor the name of his
  *     contributors may be used to endorse or promote products derived
  *     from this software without specific prior written permission.
  *
@@ -47,6 +47,8 @@ namespace Phake\Mock;
  * @link       http://www.digitalsandwich.com/
  */
 
+use WeakMap;
+
 /**
  * Stores all Info instances for static classes.
  */
@@ -55,22 +57,38 @@ class InfoRegistry
     /**
      * @var array<Info>
      */
-    private $registry = [];
+    private array $staticRegistry = [];
 
-    public function addInfo(string $name, Info $info): void
+    private WeakMap $registry;
+
+    public function __construct()
     {
-        $this->registry[$name] = $info;
+        $this->registry = new WeakMap();
     }
 
-    public function getInfo(string $name): ?Info
+    public function addInfo($mock, Info $info): void
     {
-        return $this->registry[$name] ?? null;
+        if ($mock instanceof \Phake\IMock) {
+            $this->registry[$mock] = $info;
+            return;
+        }
+
+        $this->staticRegistry[$mock] = $info;
+    }
+
+    public function getInfo($mock): ?Info
+    {
+        if ($mock instanceof \Phake\IMock) {
+            return $this->registry[$mock] ?? null;
+        }
+
+        return $this->staticRegistry[$mock] ?? null;
     }
 
     public function resetAll(): void
     {
         /* @var $info Info */
-        foreach ($this->registry as $info) {
+        foreach ($this->staticRegistry as $info) {
             $info->resetInfo();
         }
     }

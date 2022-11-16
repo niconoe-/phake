@@ -119,6 +119,7 @@ class Facade
 
         return $mockGenerator->instantiate(
             $this->cachedClasses[implode('__', $mockedClassList)],
+            $this->infoRegistry,
             $callRecorder,
             new Stubber\StubMapper(),
             $defaultAnswer,
@@ -129,6 +130,11 @@ class Facade
     public function getInfo($mock): Mock\Info
     {
         return $this->infoRegistry->getInfo($mock);
+    }
+
+    public function getInfoRegistry(): Mock\InfoRegistry
+    {
+        return $this->infoRegistry;
     }
 
     /**
