@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Phake;
 
+use WeakMap;
+
+
 /*
  * Phake - Mocking Framework
  *
@@ -64,6 +67,11 @@ class Facade
      */
     private $infoRegistry;
 
+    public WeakMap $mockInfo;
+
+    public array $staticMockInfo = [];
+    public WeakMap $constructorArgs;
+
     /**
      * @param Mock\InfoRegistry $infoRegistry
      */
@@ -71,6 +79,8 @@ class Facade
     {
         $this->cachedClasses = [];
         $this->infoRegistry = $infoRegistry;
+        $this->mockInfo = new WeakMap();
+        $this->constructorArgs = new WeakMap();
     }
 
     /**
