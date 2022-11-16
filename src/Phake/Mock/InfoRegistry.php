@@ -66,6 +66,9 @@ class InfoRegistry
         $this->registry = new WeakMap();
     }
 
+    /**
+     * @param class-string|\Phake\IMock $mock
+     */
     public function addInfo($mock, Info $info): void
     {
         if ($mock instanceof \Phake\IMock) {
@@ -76,13 +79,16 @@ class InfoRegistry
         $this->staticRegistry[$mock] = $info;
     }
 
-    public function getInfo($mock): ?Info
+    /**
+     * @param class-string|\Phake\IMock $mock
+     */
+    public function getInfo($mock): Info
     {
         if ($mock instanceof \Phake\IMock) {
-            return $this->registry[$mock] ?? null;
+            return $this->registry[$mock];
         }
 
-        return $this->staticRegistry[$mock] ?? null;
+        return $this->staticRegistry[$mock];
     }
 
     public function resetAll(): void

@@ -124,6 +124,9 @@ class Facade
         );
     }
 
+    /**
+     * @param class-string|\Phake\IMock $mock
+     */
     public function getInfo($mock): Mock\Info
     {
         return $this->infoRegistry->getInfo($mock);
