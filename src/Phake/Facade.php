@@ -69,8 +69,6 @@ class Facade
 
     public WeakMap $mockInfo;
 
-    public WeakMap $constructorArgs;
-
     /**
      * @param Mock\InfoRegistry $infoRegistry
      */
@@ -79,7 +77,6 @@ class Facade
         $this->cachedClasses = [];
         $this->infoRegistry = $infoRegistry;
         $this->mockInfo = new WeakMap();
-        $this->constructorArgs = new WeakMap();
     }
 
     /**
