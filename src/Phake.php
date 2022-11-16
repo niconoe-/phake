@@ -765,7 +765,7 @@ class Phake
         }
 
 
-        return self::getPhake()->staticMockInfo[$mock];
+        return self::getPhake()->getInfo($mock);
     }
 
     /**
